@@ -5,7 +5,7 @@ ARG STEAM_APP_ID=3930080
 ARG RCON_TOOLS_REPO=https://github.com/Shockfront-Studios/Nuclear-Option-Server-Tools.git
 ARG RCON_TOOLS_REF=main
 
-ENV TZ=US/Eastern \
+ENV TZ=Europe/Zurich \
     SERVER_DIR=/server \
     RCON_DIR=/rcon \
     PYTHONUNBUFFERED=1
@@ -30,9 +30,12 @@ WORKDIR /
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
+RUN mkdir -p /server/BepInEx/plugins
+
 VOLUME ["/replays"]
 VOLUME ["/missions"]
 VOLUME ["/banlist"]
 VOLUME ["/serverlog"]
+VOLUME ["/server/BepInEx/plugins"]
 
 ENTRYPOINT ["/entrypoint.sh"]

@@ -6,7 +6,7 @@ RCONPORT=50000
 CPU1=2
 CPU2=3
 for ((INDEX=1;INDEX<$QUOTA+1;INDEX++)); do
-    sudo docker run -d \
+    sudo podman run -d \
         --cpuset-cpus=$CPU1,$CPU2 \
         -p $SERVERPORT-$QUERYPORT:$SERVERPORT-$QUERYPORT/udp \
         -p $SERVERPORT-$QUERYPORT:$SERVERPORT-$QUERYPORT/tcp \
@@ -14,7 +14,8 @@ for ((INDEX=1;INDEX<$QUOTA+1;INDEX++)); do
         -v "$(pwd)/dogfightMission":/missions \
         -v "$(pwd)/banlist":/banlist \
         -v "$(pwd)/replays":/replays \
-        -v "$(pwd)/serverlog":/serverlog noserver \
+        -v "$(pwd)/serverlog":/serverlog \
+        -v "$(pwd)/bepinex/plugins":/server/BepInEx/plugins noserver \
         --modded false \
         --name "BROCCOLI DEFROST FORCE DOGFIGHT #"$INDEX"" \
         --password ""\

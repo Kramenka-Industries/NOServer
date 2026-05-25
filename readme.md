@@ -18,9 +18,9 @@ Optional build-time overrides:
 IMAGE_NAME=ghcr.io/your-org/noserver IMAGE_TAG=latest RCON_TOOLS_REF=main ./build.sh
 ```
 
-The image build now fetches the ServerControlPanel repository directly during `docker build`, so no pre-clone step is required.
+The image build now fetches the ServerControlPanel repository directly during `podman build`, so no pre-clone step is required.
 
-## Run with Docker
+## Run with Podman
 
 Use any of the provided scripts (`testRun.sh`, `stressTest.sh`, `runDogfight.sh`, `runPvE.sh`, etc.) as examples for local runs.
 
@@ -94,9 +94,11 @@ helm upgrade --install noserver ./helm/noserver \
 /missions
 /banlist
 /serverlog
+/server/BepInEx/plugins
 ```
 
 - `/replays`: Tacview exports
 - `/missions`: mission directory (defaults to built-in rotation if empty)
 - `/banlist`: ban list file location
 - `/serverlog`: dedicated server logs
+- `/server/BepInEx/plugins`: BepInEx plugins directory for persistent external mods

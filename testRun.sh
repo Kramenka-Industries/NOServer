@@ -1,4 +1,4 @@
-sudo docker run \
+sudo podman run \
     --cpuset-cpus=0 \
     -p 7777-7778:7777-7778/udp \
     -p 7777-7778:7777-7778/tcp \
@@ -6,7 +6,8 @@ sudo docker run \
     -v "$(pwd)/stressTestMission":/missions \
     -v "$(pwd)/banlist":/banlist \
     -v "$(pwd)/replays":/replays \
-    -v "$(pwd)/serverlog":/serverlog noserver \
+    -v "$(pwd)/serverlog":/serverlog \
+    -v "$(pwd)/bepinex/plugins":/server/BepInEx/plugins noserver \
     --modded true \
     --name "7ep3s TEST" \
     --password ""\

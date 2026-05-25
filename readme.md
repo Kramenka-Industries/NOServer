@@ -58,15 +58,34 @@ helm upgrade --install noserver ./helm/noserver \
   --set image.repository=ghcr.io/your-org/noserver \
   --set image.tag=latest \
   --set persistence.enabled=true \
-  --set service.type=LoadBalancer
+  --set service.type=ClusterIP
 ```
 
 Main configurable areas in `helm/noserver/values.yaml`:
 
 - image repository/tag/pull policy
 - service type and game/query/rcon ports
+- Traefik ingress routes for k3s (`IngressRouteTCP`/`IngressRouteUDP`)
 - persistence (emptyDir vs PVC)
 - server arguments (name, modded, limits, rotation)
+
+### k3s + Traefik external access
+
+The chart now creates Traefik CRDs (`IngressRouteTCP` and `IngressRouteUDP`) by default for game, query, and RCON traffic.
+
+1. Ensure Traefik in k3s has matching static entrypoints for:
+   - `noserver-game-tcp`
+   - `noserver-game-udp`
+   - `noserver-query-tcp`
+   - `noserver-query-udp`
+   - `noserver-rcon-tcp`
+2. Keep the NOServer chart service as `ClusterIP` (default), and expose external ports through Traefik.
+3. If your Traefik CRD group is `traefik.io/v1alpha1`, override:
+
+```bash
+helm upgrade --install noserver ./helm/noserver \
+  --set ingress.traefik.apiVersion=traefik.io/v1alpha1
+```
 
 ## Volumes used by the container
 

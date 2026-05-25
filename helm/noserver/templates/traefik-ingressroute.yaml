@@ -1,0 +1,74 @@
+{{- if .Values.ingress.traefik.enabled }}
+apiVersion: {{ .Values.ingress.traefik.apiVersion }}
+kind: IngressRouteTCP
+metadata:
+  name: {{ include "noserver.fullname" . }}-game-tcp
+  labels:
+    {{- include "noserver.labels" . | nindent 4 }}
+spec:
+  entryPoints:
+    - {{ .Values.ingress.traefik.entryPoints.gameTcp }}
+  routes:
+    - match: HostSNI(`{{ .Values.ingress.traefik.hostSNI }}`)
+      services:
+        - name: {{ include "noserver.fullname" . }}
+          port: {{ .Values.service.ports.game }}
+---
+apiVersion: {{ .Values.ingress.traefik.apiVersion }}
+kind: IngressRouteTCP
+metadata:
+  name: {{ include "noserver.fullname" . }}-query-tcp
+  labels:
+    {{- include "noserver.labels" . | nindent 4 }}
+spec:
+  entryPoints:
+    - {{ .Values.ingress.traefik.entryPoints.queryTcp }}
+  routes:
+    - match: HostSNI(`{{ .Values.ingress.traefik.hostSNI }}`)
+      services:
+        - name: {{ include "noserver.fullname" . }}
+          port: {{ .Values.service.ports.query }}
+---
+apiVersion: {{ .Values.ingress.traefik.apiVersion }}
+kind: IngressRouteTCP
+metadata:
+  name: {{ include "noserver.fullname" . }}-rcon-tcp
+  labels:
+    {{- include "noserver.labels" . | nindent 4 }}
+spec:
+  entryPoints:
+    - {{ .Values.ingress.traefik.entryPoints.rconTcp }}
+  routes:
+    - match: HostSNI(`{{ .Values.ingress.traefik.hostSNI }}`)
+      services:
+        - name: {{ include "noserver.fullname" . }}
+          port: {{ .Values.service.ports.rcon }}
+---
+apiVersion: {{ .Values.ingress.traefik.apiVersion }}
+kind: IngressRouteUDP
+metadata:
+  name: {{ include "noserver.fullname" . }}-game-udp
+  labels:
+    {{- include "noserver.labels" . | nindent 4 }}
+spec:
+  entryPoints:
+    - {{ .Values.ingress.traefik.entryPoints.gameUdp }}
+  routes:
+    - services:
+        - name: {{ include "noserver.fullname" . }}
+          port: {{ .Values.service.ports.game }}
+---
+apiVersion: {{ .Values.ingress.traefik.apiVersion }}
+kind: IngressRouteUDP
+metadata:
+  name: {{ include "noserver.fullname" . }}-query-udp
+  labels:
+    {{- include "noserver.labels" . | nindent 4 }}
+spec:
+  entryPoints:
+    - {{ .Values.ingress.traefik.entryPoints.queryUdp }}
+  routes:
+    - services:
+        - name: {{ include "noserver.fullname" . }}
+          port: {{ .Values.service.ports.query }}
+{{- end }}

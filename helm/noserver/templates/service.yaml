@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "noserver.fullname" . }}
+  labels:
+    {{- include "noserver.labels" . | nindent 4 }}
+  {{- with .Values.service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: {{ .Values.service.type }}
+  selector:
+    {{- include "noserver.selectorLabels" . | nindent 4 }}
+  ports:
+    - name: game-udp
+      protocol: UDP
+      port: {{ .Values.service.ports.game }}
+      targetPort: game-udp
+    - name: game-tcp
+      protocol: TCP
+      port: {{ .Values.service.ports.game }}
+      targetPort: game-tcp
+    - name: query-udp
+      protocol: UDP
+      port: {{ .Values.service.ports.query }}
+      targetPort: query-udp
+    - name: query-tcp
+      protocol: TCP
+      port: {{ .Values.service.ports.query }}
+      targetPort: query-tcp
+    - name: rcon-tcp
+      protocol: TCP
+      port: {{ .Values.service.ports.rcon }}
+      targetPort: rcon-tcp

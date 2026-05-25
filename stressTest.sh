@@ -1,4 +1,4 @@
-sudo docker run -d \
+sudo podman run -d \
     --cpuset-cpus=0,1,2,3 \
     -p 7777-7778:7777-7778/udp \
     -p 7777-7778:7777-7778/tcp \
@@ -6,7 +6,8 @@ sudo docker run -d \
     -v "$(pwd)/stressTestMission":/missions \
     -v "$(pwd)/banlist":/banlist \
     -v "$(pwd)/replays":/replays \
-    -v "$(pwd)/serverlog":/serverlog noserver \
+    -v "$(pwd)/serverlog":/serverlog \
+    -v "$(pwd)/bepinex/plugins":/server/BepInEx/plugins noserver \
     --modded true \
     --name "7ep3s STRESS TEST #1" \
     --password ""\
@@ -19,7 +20,7 @@ sudo docker run -d \
     --rconPort 50000 \
     --rconPassword "defaultpassword" \
     --fpsLimit 60
-sudo docker run -d \
+sudo podman run -d \
     --cpuset-cpus=4,5,6,7 \
     -p 7780-7781:7780-7781/udp \
     -p 7780-7781:7780-7781/tcp \
@@ -27,7 +28,8 @@ sudo docker run -d \
     -v "$(pwd)/stressTestMission":/missions \
     -v "$(pwd)/banlist":/banlist \
     -v "$(pwd)/replays":/replays \
-    -v "$(pwd)/serverlog":/serverlog noserver \
+    -v "$(pwd)/serverlog":/serverlog \
+    -v "$(pwd)/bepinex/plugins":/server/BepInEx/plugins noserver \
     --modded true \
     --name "7ep3s STRESS TEST #2" \
     --password ""\
@@ -40,7 +42,7 @@ sudo docker run -d \
     --rconPort 50001 \
     --rconPassword "defaultpassword" \
     --fpsLimit 60
-sudo docker run -d \
+sudo podman run -d \
     --cpuset-cpus=8,9,10,11 \
     -p 7782-7783:7782-7783/udp \
     -p 7782-7783:7782-7783/tcp \
@@ -48,7 +50,8 @@ sudo docker run -d \
     -v "$(pwd)/stressTestMission":/missions \
     -v "$(pwd)/banlist":/banlist \
     -v "$(pwd)/replays":/replays \
-    -v "$(pwd)/serverlog":/serverlog noserver \
+    -v "$(pwd)/serverlog":/serverlog \
+    -v "$(pwd)/bepinex/plugins":/server/BepInEx/plugins noserver \
     --modded true \
     --name "7ep3s STRESS TEST #3" \
     --password ""\
@@ -61,7 +64,7 @@ sudo docker run -d \
     --rconPort 50002 \
     --rconPassword "defaultpassword" \
     --fpsLimit 60
-sudo docker run -d \
+sudo podman run -d \
     --cpuset-cpus=12,13,14,15 \
     -p 7784-7785:7784-7785/udp \
     -p 7784-7785:7784-7785/tcp \
@@ -69,7 +72,8 @@ sudo docker run -d \
     -v "$(pwd)/stressTestMission":/missions \
     -v "$(pwd)/banlist":/banlist \
     -v "$(pwd)/replays":/replays \
-    -v "$(pwd)/serverlog":/serverlog noserver \
+    -v "$(pwd)/serverlog":/serverlog \
+    -v "$(pwd)/bepinex/plugins":/server/BepInEx/plugins noserver \
     --modded true \
     --name "7ep3s STRESS TEST #4" \
     --password ""\

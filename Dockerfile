@@ -1,34 +1,42 @@
 FROM steamcmd/steamcmd:latest
+
 ARG DEBIAN_FRONTEND=noninteractive
-ENV TZ=US/Eastern
+ARG STEAM_APP_ID=3930080
+ARG RCON_TOOLS_REPO=https://github.com/Shockfront-Studios/Nuclear-Option-Server-Tools.git
+ARG RCON_TOOLS_REF=main
 
-RUN apt-get update
-RUN apt-get upgrade -y
-RUN apt-get install jq -y
-RUN apt-get install file -y
-RUN apt-get install unzip -y
-RUN apt-get install wget -y
-RUN apt-get install python3 -y
-RUN apt-get install python3-venv -y
-RUN apt-get install python3-pip -y
-RUN apt-get install python3-flask -y
-RUN steamcmd +force_install_dir /server +login anonymous +app_update 3930080 validate +quit
-#RUN cp -r /server/linux64/* /server -f
-#RUN wget -O "BepInEx_linux_x64_5.4.23.3.zip" "https://github.com/BepInEx/BepInEx/releases/download/v5.4.23.3/BepInEx_linux_x64_5.4.23.3.zip"
-#RUN unzip -o "BepInEx_linux_x64_5.4.23.3.zip" -d "/server"
-#RUN rm "BepInEx_linux_x64_5.4.23.3.zip"
-#WORKDIR /server
-#COPY ./bepinex_preconfig /server
+ENV TZ=Europe/Zurich \
+    SERVER_DIR=/server \
+    RCON_DIR=/rcon \
+    PYTHONUNBUFFERED=1
 
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    file \
+    git \
+    jq \
+    python3 \
+    python3-flask \
+    python3-pip \
+    python3-venv \
+    unzip \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /rcon
-COPY ./rcon /rcon
+RUN steamcmd +force_install_dir "${SERVER_DIR}" +login anonymous +app_update "${STEAM_APP_ID}" validate +quit
+RUN git clone --depth 1 --branch "${RCON_TOOLS_REF}" "${RCON_TOOLS_REPO}" "${RCON_DIR}"
 
 WORKDIR /
-ADD entrypoint.sh /entrypoint.sh
+COPY entrypoint.sh entrypoint.sh
 RUN chmod +x /entrypoint.sh
+
+COPY bepinex_preconfig/run_bepinex.sh server/run_bepinex.sh
+RUN chmod +x server/run_bepinex.sh
+
 VOLUME ["/replays"]
 VOLUME ["/missions"]
 VOLUME ["/banlist"]
 VOLUME ["/serverlog"]
+VOLUME ["/server/BepInEx/plugins"]
+
 ENTRYPOINT ["/entrypoint.sh"]

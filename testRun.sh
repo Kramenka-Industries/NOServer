@@ -1,14 +1,14 @@
-sudo docker run \
-    --cpuset-cpus=0 \
+podman run \
     -p 7777-7778:7777-7778/udp \
     -p 7777-7778:7777-7778/tcp \
-    -p 50000-50000:50000-50000/tcp \
+    -p 50000:50000/tcp \
     -v "$(pwd)/stressTestMission":/missions \
     -v "$(pwd)/banlist":/banlist \
     -v "$(pwd)/replays":/replays \
-    -v "$(pwd)/serverlog":/serverlog noserver \
+    -v "$(pwd)/serverlog":/serverlog \
+    -v "$(pwd)/bepinex/plugins":/server/BepInEx/plugins noserver \
     --modded true \
-    --name "7ep3s TEST" \
+    --name "bot TEST" \
     --password ""\
     --portOverride true \
     --portValue 7777 \

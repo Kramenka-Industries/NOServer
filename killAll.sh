@@ -1,3 +1,3 @@
-sudo docker stop $(sudo docker ps -a -q)
-sudo docker rm $(sudo docker ps -a -q)
-sudo docker image rm $(sudo docker image ls -a -q)
+sudo podman stop $(sudo podman ps -a -q)
+sudo podman rm $(sudo podman ps -a -q)
+sudo podman image rm $(sudo podman image ls -a -q)

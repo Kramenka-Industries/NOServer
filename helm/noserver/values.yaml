@@ -1,0 +1,54 @@
+replicaCount: 1
+
+image:
+  repository: noserver
+  tag: latest
+  pullPolicy: IfNotPresent
+
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: ClusterIP
+  ports:
+    game: 7777
+    query: 7778
+    rcon: 5000
+  annotations: {}
+
+ingress:
+  traefik:
+    enabled: true
+    apiVersion: traefik.containo.us/v1alpha1
+    entryPoints:
+      gameTcp: noserver-game-tcp
+      gameUdp: noserver-game-udp
+      queryTcp: noserver-query-tcp
+      queryUdp: noserver-query-udp
+      rconTcp: noserver-rcon-tcp
+    hostSNI: "*"
+
+persistence:
+  enabled: false
+  existingClaim: ""
+  storageClassName: ""
+  accessModes:
+    - ReadWriteOnce
+  size: 20Gi
+
+serverArgs:
+  modded: "false"
+  name: "NOServer"
+  password: ""
+  rconPassword: "changeme"
+  internalRconPort: "7779"
+  maxPlayers: "16"
+  noStopTime: "30.0"
+  fpsLimit: "60"
+  rotationType: "0"
+
+resources: {}
+
+nodeSelector: {}
+tolerations: []
+affinity: {}

@@ -1,0 +1,100 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "noserver.fullname" . }}
+  labels:
+    {{- include "noserver.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "noserver.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "noserver.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ include "noserver.name" . }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args:
+            - --modded
+            - {{ .Values.serverArgs.modded | quote }}
+            - --name
+            - {{ .Values.serverArgs.name | quote }}
+            - --password
+            - {{ .Values.serverArgs.password | quote }}
+            - --portOverride
+            - "true"
+            - --portValue
+            - {{ .Values.service.ports.game | quote }}
+            - --queryOverride
+            - "true"
+            - --queryValue
+            - {{ .Values.service.ports.query | quote }}
+            - --maxplayers
+            - {{ .Values.serverArgs.maxPlayers | quote }}
+            - --noStopTime
+            - {{ .Values.serverArgs.noStopTime | quote }}
+            - --rconPort
+            - {{ .Values.service.ports.rcon | quote }}
+            - --rconPassword
+            - {{ .Values.serverArgs.rconPassword | quote }}
+            - --internalRconPort
+            - {{ .Values.serverArgs.internalRconPort | quote }}
+            - --fpsLimit
+            - {{ .Values.serverArgs.fpsLimit | quote }}
+            - --rotationType
+            - {{ .Values.serverArgs.rotationType | quote }}
+          ports:
+            - name: game-udp
+              containerPort: {{ .Values.service.ports.game }}
+              protocol: UDP
+            - name: game-tcp
+              containerPort: {{ .Values.service.ports.game }}
+              protocol: TCP
+            - name: query-udp
+              containerPort: {{ .Values.service.ports.query }}
+              protocol: UDP
+            - name: query-tcp
+              containerPort: {{ .Values.service.ports.query }}
+              protocol: TCP
+            - name: rcon-tcp
+              containerPort: {{ .Values.service.ports.rcon }}
+              protocol: TCP
+          volumeMounts:
+            - name: data
+              mountPath: /replays
+              subPath: replays
+            - name: data
+              mountPath: /missions
+              subPath: missions
+            - name: data
+              mountPath: /banlist
+              subPath: banlist
+            - name: data
+              mountPath: /serverlog
+              subPath: serverlog
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: data
+          {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{ else }}{{ include "noserver.fullname" . }}-data{{ end }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

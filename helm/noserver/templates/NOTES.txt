@@ -1,0 +1,10 @@
+1. Get release status:
+   kubectl get pods -l app.kubernetes.io/instance={{ .Release.Name }}
+
+2. Check service endpoints:
+   kubectl get svc {{ include "noserver.fullname" . }}
+
+3. Check Traefik routes:
+   kubectl get ingressroutetcp,ingressrouteudp -l app.kubernetes.io/instance={{ .Release.Name }}
+
+4. Update ports, Traefik entrypoints, and server args in values.yaml or with --set flags for each environment.

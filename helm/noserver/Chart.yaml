@@ -1,0 +1,6 @@
+apiVersion: v2
+name: noserver
+description: Helm chart for the Nuclear Option dedicated server container
+type: application
+version: 0.1.0
+appVersion: "latest"

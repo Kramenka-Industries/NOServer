@@ -1,0 +1,7 @@
+1. Get release status:
+   kubectl get pods -l app.kubernetes.io/instance={{ .Release.Name }}
+
+2. Check service endpoints:
+   kubectl get svc {{ include "noserver.fullname" . }}
+
+3. Update ports and server args in values.yaml or with --set flags for each environment.

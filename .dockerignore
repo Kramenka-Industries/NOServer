@@ -1,0 +1,13 @@
+.git
+.github
+rcon
+server
+replays
+missions
+banlist
+serverlog
+NoTuskoNoTBM
+PvEMission
+dogfightMission
+stressTestMission
+*.log

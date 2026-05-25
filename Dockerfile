@@ -27,10 +27,11 @@ RUN steamcmd +force_install_dir "${SERVER_DIR}" +login anonymous +app_update "${
 RUN git clone --depth 1 --branch "${RCON_TOOLS_REF}" "${RCON_TOOLS_REPO}" "${RCON_DIR}"
 
 WORKDIR /
-COPY entrypoint.sh /entrypoint.sh
+COPY entrypoint.sh entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-RUN mkdir -p /server/BepInEx/plugins
+COPY bepinex_preconfig/run_bepinex.sh server/run_bepinex.sh
+RUN chmod +x server/run_bepinex.sh
 
 VOLUME ["/replays"]
 VOLUME ["/missions"]

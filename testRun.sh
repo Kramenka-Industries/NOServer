@@ -1,8 +1,7 @@
-sudo podman run \
-    --cpuset-cpus=0 \
+podman run \
     -p 7777-7778:7777-7778/udp \
     -p 7777-7778:7777-7778/tcp \
-    -p 50000-50000:50000-50000/tcp \
+    -p 50000:50000/tcp \
     -v "$(pwd)/stressTestMission":/missions \
     -v "$(pwd)/banlist":/banlist \
     -v "$(pwd)/replays":/replays \

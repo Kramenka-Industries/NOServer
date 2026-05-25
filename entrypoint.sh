@@ -151,7 +151,6 @@ cd ../../server
 echo "missions folder content: "
 echo $MISSIONS_DIR
 ls -l $MISSIONS_DIR
-chmod +x ./run_bepinex.sh
 servername="${SERVER_NAME// /_}"
 timestamp=$(date +"%Y-%m-%d_%H-%M-%S")
 logfilepath="../serverlog/${servername}_${timestamp}_serverlog.log"

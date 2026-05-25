@@ -9,7 +9,7 @@ sudo podman run \
     -v "$(pwd)/serverlog":/serverlog \
     -v "$(pwd)/bepinex/plugins":/server/BepInEx/plugins noserver \
     --modded true \
-    --name "7ep3s TEST" \
+    --name "bot TEST" \
     --password ""\
     --portOverride true \
     --portValue 7777 \
